@@ -1,0 +1,110 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+{% block title %}Todays Orders{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link rel="stylesheet" href="{% static '/fontawesome-free/css/all.min.css' %}">
+<link rel="stylesheet" href="{% static '/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static '/dist/css/adminlte.min.css' %}">
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static '/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static '/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static '/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+{% endblock %}
+
+
+{% block main %}
+<body class="hold-transition sidebar-mini accent-navy layout-fixed">
+
+<div class="wrapper">
+    {% include 'includes/navbar.html' %}
+    {% include 'includes/sidebar.html' %}
+
+    <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    {% include 'includes/page_header.html' %}
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title" style="font-weight: 600;">Todays Orders</h2>
+                <br>
+                <span>We recommend to use the full featured administrator control panel for extracting the order data into a csv format.</span>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>Customer Order</th>
+                      <th>Customer Name</th>
+                      <th>Customer Order Quantity</th>
+                      <th>Payment Mode</th>
+                      <th>Payment Status</th>
+                      <th>Order Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                      <tr>
+                        <td>{{ order.order_info_id }}</td>
+                        <td>{{ order.customer_name }}</td>
+                        <td>{{ order.order_info_id.order_quantity }}</td>
+                        <td>{{ order.payment_mode.payment_mode }}</td>
+                        <td>{% if order.payment_status == "" %}
+                              <span class="badge bg-info">Not yet updated by cashier</span>
+                            {% else %}
+                              <span class="badge bg-success">{{ order.payment_status }}
+                              </span>
+                            {% endif %}
+                        </td>
+                        <td>{{ order.date_order }}</td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>Customer Order</th>
+                        <th>Customer Name</th>
+                        <th>Customer Order Quantity</th>
+                        <th>Payment Mode</th>
+                        <th>Payment Status</th>
+                        <th>Order Date</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/footer.html' %}
+
+</div>
+</body>
+
+{% include 'includes/script.html' %}
+
+{% endblock %}
+
+
